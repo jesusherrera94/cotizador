@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styled from '@emotion/styled';
-import {obtenerDiferenciaYear} from '../componets/Helper';
+import {obtenerDiferenciaYear, calcularMarca, obtenerPlan} from '../componets/Helper';
 
 
 
@@ -48,7 +48,7 @@ const Error = styled.div`
     margin-bottom: 2rem;
 `;
 
-const Formulario = () => {
+const Formulario = ({guardarResumen}) => {
 
     const [datos, guardartosr] = useState({
         marca: '',
@@ -89,12 +89,16 @@ const Formulario = () => {
         //por cada año hay que restar un 3%
 
         //americano 15%, asiatico 5%, europeo 30%
-
+        resultado = calcularMarca(marca)*resultado;
         //basico aumenta 20%
         //completo aumenta un 50%
-
+        const incrementoPlan = obtenerPlan(plan);
+        resultado = parseFloat(incrementoPlan*resultado).toFixed(2)
         //total
-
+        guardarResumen({
+            cotizacion: resultado,
+            datos
+        })
     }
 
     return ( 
@@ -112,7 +116,7 @@ const Formulario = () => {
                         <option value="">-- Seleccione --</option>
                         <option value="americano">Americano</option>
                         <option value="europeo">Europeo</option>
-                        <option value="japones">Japones</option>
+                        <option value="asiatico">Asiático</option>
                     </Select>
                 </Campo>
                 <Campo>
